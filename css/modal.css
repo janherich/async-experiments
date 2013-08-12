@@ -1,0 +1,39 @@
+.btn {
+	margin-left: 10px;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0,0,0,0.8);
+    z-index: 99999;
+    opacity: 1;
+    -webkit-transition: opacity 400ms ease-in;
+    -moz-transition: opacity 400ms ease-in;
+    transition: opacity 400ms ease-in;
+}
+
+.modal-box {
+     width:800px;
+     margin: 10% auto;
+     padding: 15px;
+     background-color: #fff;
+     border: 1px solid #000;
+     border-radius: 4px;
+     text-align:center;
+}
+
+.users-row {
+     width: 30%;
+}
+
+.assigned-roles-row {
+     width: 35%;
+}
+
+.available-roles-row {
+     width: 35%;
+}
