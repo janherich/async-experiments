@@ -9,9 +9,9 @@
      (let [edit-btn-attrs {:type "button" :value "edit roles"}
            some-users-selected? (> (count (filter (fn [[id user]] (:selected user)) users)) 0)]
        [:p
-	      [:input.btn.btn-primary.edit-roles (if some-users-selected? 
-                                            edit-btn-attrs 
-                                            (assoc edit-btn-attrs :disabled "disabled"))]])]]])
+        [:input.btn.btn-primary.edit-roles (if some-users-selected? 
+                                             edit-btn-attrs 
+                                             (assoc edit-btn-attrs :disabled "disabled"))]])]]])
 
 (defn render-user-list [{users :users}]
   [:table.table.table-hover
@@ -37,10 +37,10 @@
    [:div.modal-box
     [:table.table.table-hover
      [:thead
-	    [:tr
-	     [:th.users-row "Users"]
-	     [:th.assigned-roles-row "Assigned roles (click to remove)"]
-	     [:th.available-roles-row "Available roles (click to add)"]]]
+      [:tr
+       [:th.users-row "Users"]
+       [:th.assigned-roles-row "Assigned roles (click to remove)"]
+       [:th.available-roles-row "Available roles (click to add)"]]]
      (reduce (fn [tbody [roles users]]
                (conj tbody [:tr
                             [:td

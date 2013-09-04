@@ -37,19 +37,19 @@
 	(defn get-users-roles-matrix [{users :users}]
 	  (reduce (fn [acc [id user]]
 	            (update-in acc [(:roles user)] assoc-func (-> user
-                                                         (assoc :id id)
-                                                         (dissoc :selected)
-                                                         (dissoc :roles)))) 
-           {} 
-           (filter (fn [[id user]] (:selected user)) users))))
+                                                                  (assoc :id id)
+                                                                  (dissoc :selected)
+                                                                  (dissoc :roles)))) 
+                  {} 
+                  (filter (fn [[id user]] (:selected user)) users))))
 
 (defn update-form-state [op {matrix :users-roles-matrix :as form-state} e]
   (let [[roles-key role] (reader/read-string (dom/attr (dom-events/target e) :id))
         former-users (get matrix roles-key)
         new-roles-key (op roles-key role)
         new-matrix (-> matrix
-                     (update-in [new-roles-key] (fn [users] (into [] (concat former-users users))))
-                     (dissoc roles-key))]
+                       (update-in [new-roles-key] (fn [users] (into [] (concat former-users users))))
+                       (dissoc roles-key))]
     (assoc form-state :users-roles-matrix new-matrix)))
 
 (defn update-user-roles [{:keys [users users-roles-matrix] :as form-state}]
@@ -61,8 +61,8 @@
                                                   (assoc user :roles (get reverse-matrix id))
                                                   user))) {} users)]
     (-> form-state
-      (dissoc :users-roles-matrix)
-      (assoc :users updated-users))))
+        (dissoc :users-roles-matrix)
+        (assoc :users updated-users))))
 
 (defn edit-roles-form [input-chan state]
   (go
@@ -73,11 +73,11 @@
      (event-chan input-chan (css/sel ".submit-roles-form") :click :edit-form-submit)
      (event-chan input-chan (css/sel ".cancel-roles-form") :click :edit-form-cancel)
      (let [[ev-name ev-data] (<! (filter-events
-                                   #{:add-role
-                                     :remove-role
-                                     :edit-form-submit 
-                                     :edit-form-cancel}
-                                   input-chan))]
+                                  #{:add-role
+                                    :remove-role
+                                    :edit-form-submit 
+                                    :edit-form-cancel}
+                                  input-chan))]
        (condp = ev-name
          :add-role (recur ((partial update-form-state conj) form-state ev-data))
          :remove-role (recur ((partial update-form-state disj) form-state ev-data))
