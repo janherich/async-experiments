@@ -1,24 +1,19 @@
 (ns async-experiments.modal.core
   (:require
    [cljs.reader :as reader]
-   [cljs.core.async :as async :refer [<! >! chan close! sliding-buffer put!]]
+   [cljs.core.async :as async :refer [<! chan put! filter>]]
    [domina :as dom]
    [domina.events :as dom-events]
    [domina.css :as css]
    [crate.core :as crate]
    [clojure.string :refer [join blank?]]
    [async-experiments.modal.templates :refer [app-view]])
-  (:require-macros [cljs.core.async.macros :as m :refer [go alt!]]))
+  (:require-macros [cljs.core.async.macros :as m :refer [go]]))
 
 (defn event-chan [input-chan selector ev-type ev-name]
   (dom-events/listen! selector ev-type (fn [e]
                                          (dom-events/prevent-default e)
                                          (put! input-chan [ev-name e]))))
-
-(defn filter-chan [pred channel]
-  (go (loop []
-        (let [res (<! channel)]
-          (if (pred res) res (recur))))))
 
 (defn filter-events [name-set channel]
   (let [name-set (if (set? name-set) name-set #{name-set})]
@@ -72,7 +67,7 @@
      (event-chan input-chan (css/sel ".remove-role") :click :remove-role)
      (event-chan input-chan (css/sel ".submit-roles-form") :click :edit-form-submit)
      (event-chan input-chan (css/sel ".cancel-roles-form") :click :edit-form-cancel)
-     (let [[ev-name ev-data] (<! (filter-events
+     (let [[ev-name ev-data] (<! (filter>
                                   #{:add-role
                                     :remove-role
                                     :edit-form-submit 
