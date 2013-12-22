@@ -15,11 +15,6 @@
                                          (dom-events/prevent-default e)
                                          (put! input-chan [ev-name e]))))
 
-(defn filter-events [name-set channel]
-  (let [name-set (if (set? name-set) name-set #{name-set})]
-    (filter-chan #(and (pos? (count %)) (name-set (first %)))
-                 channel)))
-
 (defn render-page [state]
   (dom/set-html! (css/sel ".container") (crate/html (app-view state))))
 
