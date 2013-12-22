@@ -20,7 +20,11 @@
                         :source-paths ["src/async_experiments/modal"]
                         :compiler {:optimizations :whitespace
                                    :pretty-print false
-                                   :output-dir "js"
-                                   :output-to "js/modal.js"
-                                   ;:source-map "js/main.js.map"
-                                   }}]})
+                                   :output-dir "js/modal/"
+                                   :output-to "js/modal/core.js"}}
+                       {:id "search"
+                        :source-paths ["src/async_experiments/search"]
+                        :compiler {:optimizations :whitespace
+                                   :pretty-print false
+                                   :output-dir "js/search/"
+                                   :output-to "js/search/core.js"}}]})
